@@ -1,12 +1,12 @@
 <div id="comments">
-	{% case post.comment_count %}
+	{% case page.comment_count %}
 		{% when 0 %}
 		{% when 1 %}
 			<h1>1 Comment</h1>
 		{% else %}
-			<h1>{{post.comment_count}} Comments</h1>
+			<h1>{{page.comment_count}} Comments</h1>
 	{% endcase %}
-	{% for c in post.comments %}
+	{% for c in page.comments %}
 		<div class="comment {% cycle 'odd', 'even' %}">
 			<p class="comment_header">
 				From: {% if c.link %}
@@ -27,7 +27,7 @@
 		All comments are held for moderation; basic HTML formatting accepted.
 	</p>
 	<form id="commentform" method="POST" action="{{site.url}}/commentsubmit.php">
-		<input type="hidden" name="post_id" value="{{post.id}}" />
+		<input type="hidden" name="post_id" value="{{page.id}}" />
 		<table>
 			<tr>
 				<th>Name:</th>
