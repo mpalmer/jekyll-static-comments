@@ -34,7 +34,9 @@ directory, called `_comments`, which contains all your comments.  You can
 have an arbitrary hierarchy inside this `_comments` directory (so you can
 put comments in post-specific directories, if you like), and the `_comments`
 directory can be anywhere in your site tree (I put it alongside my `_posts`
-directory).
+directory).  The files containing comments can be named anything you like --
+every single file within the `_comments` directory will be read and parsed
+as a comment.
 
 Each file in `_comments` represents a single comment, as a YAML hash.  The
 YAML must contain a `post_id` attribute, which corresponds to the `id` of
