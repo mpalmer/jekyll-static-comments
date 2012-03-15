@@ -44,11 +44,11 @@ the post it is a comment on, but apart from that the YAML fields are
 anything you want them to be.
 
 The fields in your YAML file will be mapped to fields in a Comment
-object.  There is a new `post.comments` field, which contains a list of the
+object.  There is a new `page.comments` field, which contains a list of the
 Comment objects for each post.  Iterating through a post and printing the
 comments is as simple as:
 
-    {% for c in post.comments %}
+    {% for c in page.comments %}
       <a href="{{c.link}}">{{c.nick}}</a>
       <p>
         {{c.content}}
@@ -63,7 +63,7 @@ templates: the language considers it to be the start of a comment
 (regardless of where it appears) and eats your code.  Yes, apparently Liquid
 really *is* that stupid.
 
-The order of the comments list returned in the post.comments array is
+The order of the comments list returned in the page.comments array is
 based on the lexical ordering of the filenames that the comments are
 stored in.  Hence, you can preserve strict date ordering of your comments
 by ensuring that the filenames are based around the date/time of comment
