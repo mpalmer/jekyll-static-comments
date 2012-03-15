@@ -57,11 +57,7 @@ comments is as simple as:
     {% endfor %}
 
 This, of course, assumes that your YAML comments have the `link`, `nick`,
-and `content` fields.  Your mileage will vary.  A caveat: never use the word
-'comment' as an identifier of any kind (variable, whatever) in your Liquid
-templates: the language considers it to be the start of a comment
-(regardless of where it appears) and eats your code.  Yes, apparently Liquid
-really *is* that stupid.
+and `content` fields.  Your mileage will vary.
 
 The order of the comments list returned in the page.comments array is
 based on the lexical ordering of the filenames that the comments are
@@ -81,6 +77,15 @@ E-mailing the comments to you, though, is a fairly natural workflow.  You
 just save the comments out to your `_comments` directory, then re-generate
 the site and upload.  This provides a natural "moderation" mechanism, at the
 expense of discouraging wide-ranging "realtime" discussion.
+
+## A caveat about liquid
+
+Never use the word `comment` by itself as an identifier of any kind
+(variable, whatever) in your Liquid templates: the language considers it to
+be the start of a comment (regardless of where it appears) and eats your
+code.  Yes, apparently Liquid really *is* that stupid.  At the very least,
+you'll need to put a prefix or suffix or something so that liquid doesn't
+think you're trying to execute it's `comment` function.
 
 ## Licencing, bug reports, patches, etc
 
