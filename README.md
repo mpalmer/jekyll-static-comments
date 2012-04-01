@@ -87,6 +87,14 @@ code.  Yes, apparently Liquid really *is* that stupid.  At the very least,
 you'll need to put a prefix or suffix or something so that liquid doesn't
 think you're trying to execute it's `comment` function.
 
+## Still too much dynamic code?
+
+If you like the idea of static comments, but you think that there's still
+too much dynamic code, then you might like to consider [Tomas Carnecky's
+even-more-static-comments](https://blog.caurea.org/2012/03/31/this-blog-has-comments-again.html),
+which uses a special per-post e-mail address to receive comments via a
+`mailto:` URL.
+
 ## Licencing, bug reports, patches, etc
 
 This plugin is licenced under the terms of the [GNU GPL version
