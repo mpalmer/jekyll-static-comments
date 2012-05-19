@@ -9,7 +9,7 @@
 	{% for c in page.comments %}
 		<div class="comment {% cycle 'odd', 'even' %}">
 			<p class="comment_header">
-				From: {% if c.link %}
+				From: {% if c.link and c.link != '' %}
 					<a href="{{c.link}}">{{c.name}}</a>
 				{% else %}
 					{{c.name}}
