@@ -2,14 +2,22 @@
    "http://www.w3.org/TR/html4/strict.dtd"> 
 <html> 
 	<head> 
-		<title> 
-			Comment Received
-		</title> 
-	</head> 
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<?php if (isset($_POST['return_url']))
+		{
+			$return_url = $_POST['return_url'];
+			$return_delay = 5; //Number of seconds to linger on this page before redirecting back to the static site
+			echo '<meta http-equiv="refresh" content="'.$return_delay.';url="'.$return_url.'" />';
+		} ?>
+		<title>Comment Received</title> 
+	</head>
 <body>
 <h1>Comment Received</h1>
-<p>
-Thankyou for your comment.  It will be reviewed and published shortly.
-</p>
+	<p>Thank you for your comment. It will be reviewed and published shortly.</p>
+	<?php if (isset($return_url))
+	{
+		echo '<p>You are now returning to the page you were on. Click the link if you are not redirected automatically.</p>';
+		echo '<p><a href="'.$return_url.'">'.$return_url.'</a></p>';
+	} ?>
 </body>
 </html>
