@@ -59,6 +59,11 @@ foreach ($_POST as $key => $value) {
 	$msg .= "$key: $value\n";
 }
 
-mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS");
-
-include $COMMENT_RECEIVED;
+if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
+{
+	include $COMMENT_RECEIVED;
+}
+else
+{
+	echo "There was a problem sending the comment. Please contact the site's owner.";
+}
