@@ -7,7 +7,7 @@
 		{
 			$return_url = $_POST['return_url'];
 			$return_delay = 5; //Number of seconds to linger on this page before redirecting back to the static site
-			echo '<meta http-equiv="refresh" content="'.$return_delay.';url="'.$return_url.'" />';
+			echo "<meta http-equiv=\"refresh\" content=\"$return_delay;url='$return_url'\" />";
 		} ?>
 		<title>Comment Received</title> 
 	</head>
