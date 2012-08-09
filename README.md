@@ -17,11 +17,11 @@ somewhere suitable in your site.
 render it in your site's style, for instance) and then place it alongside
 `commentsubmit.php`.
 
-1. Using `comment_template.html as a base, add the appropriate code to your
+1. Using `comment_template.html` as a base, add the appropriate code to your
 blog post template.  Remember to provide an appropriate URL to
 `commentsubmit.php`.
 
-1. Create a `_comments` directory somewhere in your jekyll site, and
+1. Create a `_comments` directory somewhere in your Jekyll site, and
 populate it with YAML comments (as produced by `commentsubmit.php`, or
 otherwise).
 
@@ -78,13 +78,13 @@ just save the comments out to your `_comments` directory, then re-generate
 the site and upload.  This provides a natural "moderation" mechanism, at the
 expense of discouraging wide-ranging "realtime" discussion.
 
-## A caveat about liquid
+## A caveat about Liquid
 
 Never use the word `comment` by itself as an identifier of any kind
 (variable, whatever) in your Liquid templates: the language considers it to
 be the start of a comment (regardless of where it appears) and eats your
 code.  Yes, apparently Liquid really *is* that stupid.  At the very least,
-you'll need to put a prefix or suffix or something so that liquid doesn't
+you'll need to put a prefix or suffix or something so that Liquid doesn't
 think you're trying to execute it's `comment` function.
 
 ## Still too much dynamic code?
