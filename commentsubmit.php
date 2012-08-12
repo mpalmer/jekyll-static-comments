@@ -67,7 +67,7 @@ $subject = $SUBJECT;
 
 // NOTE: Uses the "blog owner's" email address for the "From:" field, 
 // not the email address of the commenter.
-$headers = "From: $EMAIL_ADDRESS\r\n";
+$headers = "From: $COMMENTER_NAME <$EMAIL_ADDRESS>\r\n";
 
 $post_id = $_POST["post_id"];
 unset($_POST["post_id"]);
