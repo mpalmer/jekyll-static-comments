@@ -42,10 +42,16 @@ $COMMENT_RECEIVED = "comment_received.html";
  * HERE BE CODE
  ****************************************************************************/
 
+$subject = $SUBJECT;
+
+// NOTE: Uses the "blog owner's" email address for the "From:" field, 
+// not the email address of the commenter.
+$headers = "From: $EMAIL_ADDRESS\r\n";
+
 $post_id = $_POST["post_id"];
 unset($_POST["post_id"]);
-$msg = "post_id: $post_id\n";
-$msg .= "date: " . date($DATE_FORMAT) . "\n";
+$message = "post_id: $post_id\n";
+$message .= "date: " . date($DATE_FORMAT) . "\n";
 
 foreach ($_POST as $key => $value) {
 	if (strstr($value, "\n") != "") {
@@ -56,10 +62,10 @@ foreach ($_POST as $key => $value) {
 	// It's easier just to single-quote everything than to try and work
 	// out what might need quoting
 	$value = "'" . str_replace("'", "''", $value) . "'";
-	$msg .= "$key: $value\n";
+	$message .= "$key: $value\n";
 }
 
-if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
+if (mail($EMAIL_ADDRESS, $subject, $message, $headers))
 {
 	include $COMMENT_RECEIVED;
 }
