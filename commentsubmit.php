@@ -47,7 +47,21 @@ function get_post_field($key, $defaultValue = "")
 	return (isset($_POST[$key]) && !empty($_POST[$key])) ? $_POST[$key] : $defaultValue;
 }
 
-$COMMENTER_NAME = get_post_field('name', "Anonymous");
+function filter_name($input)
+{
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => "'", '<'  => '[', '>'  => ']' );
+	return trim(strtr($input, $rules));
+}
+
+function filter_email($input)
+{
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => '', ','  => '', '<'  => '', '>'  => '' );
+	return strtr($input, $rules);
+}
+
+
+$EMAIL_ADDRESS = filter_email($EMAIL_ADDRESS);
+$COMMENTER_NAME = filter_name(get_post_field('name', "Anonymous"));
 
 $subject = $SUBJECT;
 
