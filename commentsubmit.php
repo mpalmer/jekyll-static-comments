@@ -42,6 +42,13 @@ $COMMENT_RECEIVED = "comment_received.html";
  * HERE BE CODE
  ****************************************************************************/
 
+function get_post_field($key, $defaultValue = "")
+{
+	return (isset($_POST[$key]) && !empty($_POST[$key])) ? $_POST[$key] : $defaultValue;
+}
+
+$COMMENTER_NAME = get_post_field('name', "Anonymous");
+
 $subject = $SUBJECT;
 
 // NOTE: Uses the "blog owner's" email address for the "From:" field, 
