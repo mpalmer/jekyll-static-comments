@@ -28,6 +28,7 @@
 	</p>
 	<form id="commentform" method="POST" action="{{site.url}}/commentsubmit.php">
 		<input type="hidden" name="post_id" value="{{page.id}}" />
+		<input type="hidden" name="post_title" value="{{ page.title | escape }}" />
 		<input type="hidden" name="return_url" value="{{site.url}}{{page.url}}" />
 		<table>
 			<tr>
