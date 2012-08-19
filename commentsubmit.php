@@ -59,6 +59,8 @@ foreach ($_POST as $key => $value) {
 	$msg .= "$key: $value\n";
 }
 
+$msg = utf8_decode($msg);
+
 if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
 {
 	include $COMMENT_RECEIVED;
