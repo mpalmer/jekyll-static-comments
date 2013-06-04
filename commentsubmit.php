@@ -38,6 +38,10 @@ $SUBJECT = "Blog comment received";
 // content.
 $COMMENT_RECEIVED = "comment_received.html";
 
+// A short string for filtering automatic spam comments, to be typed in the
+// proper field when writing the comment
+$ANTISPAM = "I am not a spammer";
+
 /****************************************************************************
  * HERE BE CODE
  ****************************************************************************/
@@ -59,11 +63,16 @@ foreach ($_POST as $key => $value) {
 	$msg .= "$key: $value\n";
 }
 
-if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
-{
-	include $COMMENT_RECEIVED;
+if ($_POST["spam"] != $ANTISPAM) {
+	echo "Anti-spam mismatch. Please check you typed the exact string.";
 }
-else
-{
-	echo "There was a problem sending the comment. Please contact the site's owner.";
+else {
+	if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
+	{
+		include $COMMENT_RECEIVED;
+	}
+	else
+	{
+		echo "There was a problem sending the comment. Please contact the site's owner.";
+	}
 }
