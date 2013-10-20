@@ -22,7 +22,7 @@ class Jekyll::Post
 	alias :to_liquid_without_comments :to_liquid
 	
 	def to_liquid(attrs = nil)
-		data = to_liquid_without_comments(attrs)
+		data = (attrs.nil? ? to_liquid_without_comments() : to_liquid_without_comments(attrs))
 		data['comments'] = StaticComments::find_for_post(self)
 		data['comment_count'] = data['comments'].length
 		data
