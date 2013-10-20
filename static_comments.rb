@@ -19,13 +19,19 @@
 #  with this program; if not, see <http://www.gnu.org/licences/>
 
 class Jekyll::Post
-	alias :to_liquid_without_comments :to_liquid
+	def comments
+		@comments ||= StaticComments::find_for_post(self)
+	end
 	
-	def to_liquid
-		data = to_liquid_without_comments
-		data['comments'] = StaticComments::find_for_post(self)
-		data['comment_count'] = data['comments'].length
-		data
+	def comments_count
+		comments.size
+	end
+	
+	def to_liquid(attrs = ATTRIBUTES_FOR_LIQUID)
+		super(attrs + %w[
+			comments
+			comment_count
+		])
 	end
 end
 
