@@ -1,0 +1,35 @@
+---
+layout: default
+---
+<h2>{{ page.title }}</h2>
+<p class="meta">{{ page.date | date_to_string }}</p>
+
+<div class="post">
+{{ content }}
+</div>
+
+<div id="comments">
+        {% case page.comment_count %}
+                {% when 0 %}
+                {% when 1 %}
+                        <h1>1 Comment</h1>
+                {% else %}
+                        <h1>{{page.comment_count}} Comments</h1>
+        {% endcase %}
+        {% for c in page.comments %}
+                <div class="comment {% cycle 'odd', 'even' %}">
+                        <p class="comment_header">
+                                From: {% if c.link and c.link != '' %}
+                                        <a href="{{c.link}}">{{c.name}}</a>
+                                {% else %}
+                                        {{c.author}}
+                                {% endif %}
+                                <br />
+                                <span class="comment_date">{{c.date | date_to_string}}</span>
+                        </p>
+                        <p>
+                                {{c.content | newline_to_br}}
+                        </p>
+                </div>
+        {% endfor %}
+</div>
