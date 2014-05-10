@@ -1,3 +1,4 @@
+require 'awesome_print'
 # Store and render comments as a static part of a Jekyll site
 #
 # See README.mdwn for detailed documentation on this plugin.
@@ -93,6 +94,10 @@ module StaticComments
     
     def post_id
       data['post_id']
+    end
+
+    def relative_path # make jekyll 2.0 happy
+      "_comments"
     end
   end
 
