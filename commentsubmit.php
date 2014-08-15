@@ -27,12 +27,6 @@ $DATE_FORMAT = "Y-m-d H:i";
 // because that turns you into an open relay, and that's not cool.
 $EMAIL_ADDRESS = "blogger@example.com";
 
-// The subject of all blog comment e-mails.  If you're running lots of these,
-// you might want to customise it, or if you were running a generic comment
-// handler you could take it out of the form, but really, who cares what your
-// comment e-mails are titled, as long as you can recognise it?
-$SUBJECT = "Blog comment received";
-
 // The contents of the following file (relative to this PHP file) will be
 // displayed after the comment is received.  Customise it to your heart's
 // content.
@@ -42,10 +36,38 @@ $COMMENT_RECEIVED = "comment_received.html";
  * HERE BE CODE
  ****************************************************************************/
 
+function get_post_field($key, $defaultValue = "")
+{
+	return (isset($_POST[$key]) && !empty($_POST[$key])) ? $_POST[$key] : $defaultValue;
+}
+
+function filter_name($input)
+{
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => "'", '<'  => '[', '>'  => ']' );
+	return trim(strtr($input, $rules));
+}
+
+function filter_email($input)
+{
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => '', ','  => '', '<'  => '', '>'  => '' );
+	return strtr($input, $rules);
+}
+
+
+$EMAIL_ADDRESS = filter_email($EMAIL_ADDRESS);
+$COMMENTER_NAME = filter_name(get_post_field('name', "Anonymous"));
+$POST_TITLE = get_post_field('post_title', "Unknown post");
+
+$subject = "Comment from $COMMENTER_NAME on '$POST_TITLE'";
+
+// NOTE: Uses the "blog owner's" email address for the "From:" field, 
+// not the email address of the commenter.
+$headers = "From: $COMMENTER_NAME <$EMAIL_ADDRESS>\r\n";
+
 $post_id = $_POST["post_id"];
 unset($_POST["post_id"]);
-$msg = "post_id: $post_id\n";
-$msg .= "date: " . date($DATE_FORMAT) . "\n";
+$message = "post_id: $post_id\n";
+$message .= "date: " . date($DATE_FORMAT) . "\n";
 
 foreach ($_POST as $key => $value) {
 	if (strstr($value, "\n") != "") {
@@ -56,10 +78,10 @@ foreach ($_POST as $key => $value) {
 	// It's easier just to single-quote everything than to try and work
 	// out what might need quoting
 	$value = "'" . str_replace("'", "''", $value) . "'";
-	$msg .= "$key: $value\n";
+	$message .= "$key: $value\n";
 }
 
-if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
+if (mail($EMAIL_ADDRESS, $subject, $message, $headers))
 {
 	include $COMMENT_RECEIVED;
 }
