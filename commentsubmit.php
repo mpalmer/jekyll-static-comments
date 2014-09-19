@@ -42,10 +42,40 @@ $COMMENT_RECEIVED = "comment_received.html";
  * HERE BE CODE
  ****************************************************************************/
 
+function get_post_field($key, $defaultValue = "")
+{
+	return (isset($_POST[$key]) && !empty($_POST[$key])) ? $_POST[$key] : $defaultValue;
+}
+
+function filter_name($input)
+{
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => "'", '<'  => '[', '>'  => ']' );
+	return trim(strtr($input, $rules));
+}
+
+function filter_email($input)
+{
+	$rules = array( "\r" => '', "\n" => '', "\t" => '', '"'  => '', ','  => '', '<'  => '', '>'  => '' );
+	return strtr($input, $rules);
+}
+
+
+$EMAIL_ADDRESS = filter_email($EMAIL_ADDRESS);
+$COMMENTER_NAME = filter_name(get_post_field('name', "Anonymous"));
+$COMMENTER_EMAIL_ADDRESS = filter_email(get_post_field('email', $EMAIL_ADDRESS));
+
+
+$subject = $SUBJECT;
+
+// NOTE: Uses the "blog owner's" email address for the "From:" field, 
+// not the email address of the commenter.
+$headers = "From: $COMMENTER_NAME <$EMAIL_ADDRESS>\r\n";
+$headers .= (!empty($COMMENTER_EMAIL_ADDRESS)) ? "Reply-To: $COMMENTER_NAME <$COMMENTER_EMAIL_ADDRESS>\r\n" : "";
+
 $post_id = $_POST["post_id"];
 unset($_POST["post_id"]);
-$msg = "post_id: $post_id\n";
-$msg .= "date: " . date($DATE_FORMAT) . "\n";
+$message = "post_id: $post_id\n";
+$message .= "date: " . date($DATE_FORMAT) . "\n";
 
 foreach ($_POST as $key => $value) {
 	if (strstr($value, "\n") != "") {
@@ -56,10 +86,10 @@ foreach ($_POST as $key => $value) {
 	// It's easier just to single-quote everything than to try and work
 	// out what might need quoting
 	$value = "'" . str_replace("'", "''", $value) . "'";
-	$msg .= "$key: $value\n";
+	$message .= "$key: $value\n";
 }
 
-if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
+if (mail($EMAIL_ADDRESS, $subject, $message, $headers))
 {
 	include $COMMENT_RECEIVED;
 }
