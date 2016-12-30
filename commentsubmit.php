@@ -38,9 +38,21 @@ $SUBJECT = "Blog comment received";
 // content.
 $COMMENT_RECEIVED = "comment_received.html";
 
+
 /****************************************************************************
  * HERE BE CODE
  ****************************************************************************/
+
+$COMMENTER_NAME = (isset($_POST['name']) && !empty($_POST['name'])) ? htmlspecialchars($_POST['name']) : "Anonymous";
+$COMMENTER_EMAIL_ADDRESS = (isset($_POST['email'])) ? htmlspecialchars($_POST['email']) : "";
+
+// NOTE: Use the "blog owner's" email address for the "From:" field, 
+// not the email address of the commenter for reasons stated above.
+$headers = "From: $COMMENTER_NAME <$EMAIL_ADDRESS>\r\n";
+if (!empty($COMMENTER_EMAIL_ADDRESS)) 
+	{ $headers .= "Reply-To: $COMMENTER_NAME <$COMMENTER_EMAIL_ADDRESS>\r\n"; }	
+$headers .= 'X-Mailer: PHP/' . phpversion();
+
 
 $post_id = $_POST["post_id"];
 unset($_POST["post_id"]);
@@ -59,7 +71,7 @@ foreach ($_POST as $key => $value) {
 	$msg .= "$key: $value\n";
 }
 
-if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, "From: $EMAIL_ADDRESS"))
+if (mail($EMAIL_ADDRESS, $SUBJECT, $msg, $headers))
 {
 	include $COMMENT_RECEIVED;
 }
